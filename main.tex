@@ -1,0 +1,139 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+\documentclass[letterpaper, 12 pt, conference]{ieeeconf}  % Comment this line out
+                                                          % if you need a4paper
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
+                                                          % paper
+
+\IEEEoverridecommandlockouts                              % This command is only
+                                                          % needed if you want to
+                                                          % use the \thanks command
+\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+
+
+% The following packages can be found on http:\\www.ctan.org
+\usepackage{graphicx} % for pdf, bitmapped graphics files
+\usepackage{bm}
+\usepackage[english]{babel}
+\usepackage{blindtext}
+\usepackage{amsfonts}
+\newcommand{\uvec}[1]{\boldsymbol{\hat{\textbf{#1}}}}
+%\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+%\usepackage{amsmath} % assumes amsmath package installed
+%\usepackage{amssymb}  % assumes amsmath package installed
+
+\title{\LARGE \bf
+Autonomous Navigation over Rough Terrain
+}
+
+\author{Xi Chen, John Folkesson and Patric Jensfelt % <-this % stops a space
+%\author{Priyanshu Gandhi$^{1}$ and Hemant Kumar$^{2}$% <-this % stops a space
+%\thanks{}% <-this % stops a space
+%\thanks{$^{1}$Priyanshu Gandhi, 13116053, Department of Electronics and Communication Engineering}%
+%\thanks{$^{2}$Hemant Kumar, 13116031, Department of Electronics and Communication Engineering}%
+}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+\blindtext
+
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction (later)}
+The objective of the navigation system is to successfully move the robot from the initial pose A to the target pose B with combined driving and stepping motion. In the case that target B is located in unknown area or there are vast unknown area between A and B, a sub-target pose B' will be selected.
+The navigation system will extract traversability features from the environment and integrate all measureable information into a knowledge map. Using the current knowledge map, the navigation system will generate one or multiple paths  based on criteria such as environmental uncertainty, travelling time, safety and efficiency.
+
+\section{Problem Formulation (done)}
+The workspace $\mathcal{W} = \mathbb{R}^{N}$, in witch $N=2$ or $N=3$ represents the environment in 2D or 3D space. The closed set $\mathcal{O}\subset \mathcal{W}$ represents the obstacle region, which is usually expressed as a collection of polygon (in 2D space) or polyhedra (in 3D space). 
+The configuration of the robot $\textbf{q}$ is a $k$-dimensional vector which spicily the configuration of the robot using $k$ real values.  
+The configuration space or the C-space $\mathcal{C}$ represents the set of all transformations that can be applied to a robot given its kinematics. A configuration $\textbf{q}$ is a point in $\mathcal{C}$.
+
+Let $\mathcal{A}$ represents a rigid body robot and the closed subset $\mathcal{A}(\textbf{q})$ of the workspace $\mathcal{W}$ that is occupied by a configuration $\textbf{q}$ of $\mathcal{A}$ is donated as $\mathcal{A}(\textbf{q})\subset \mathcal{W}$.
+The obstacle region $\mathcal{C}_{obs}$ in $\mathcal{C}$ is defined as:
+\[
+\mathcal{C}_{obs} = \left \{\textbf{q} \in \mathcal{C} |\mathcal{A}(\textbf{q})\cap \mathcal{O} \neq \phi \right \}
+\]
+The set of configuration that avoid collision $\mathcal{C}_{free}$ is the complement of $\mathcal{C}_{obs}$ in $\mathcal{C}$.
+\[
+\mathcal{C}_{free} = \left \{\textbf{q} \in \mathcal{C} |\mathcal{A}(\textbf{q})\cap \mathcal{O} = \phi \right \}
+\]
+
+The path planning problem can be defined as: given a robot description $\mathcal{A}$, a C-space where $\mathcal{C}_{free}$ and $\mathcal{C}_{obs}$ are defined, an initial configuration $\textbf{q}_{I}\in \mathcal{C}_{free}$ and a goal configuration $\textbf{q}_{G} \in \mathcal{C}_{free}$, compute a continues path $\tau:\left [ 0,1 \right ]\rightarrow \mathcal{C}_{free}$ that connects the initial configuration and the goal configuration with $\tau(0)=\textbf{q}_{I}$ and $\tau(1)=\textbf{q}_{G}$. 
+
+The path planning with only kinematic constraints is often referred to as nonholonomic planning. 
+For some problems, there are constrains on the robot dynamics such as the velocity, acceleration and applied forces. Planning with dynamic constraints is known as kinodynamic planning. 
+In the kinodynamic planning, the state space $\mathcal{S}$ is introduced to deal with dynamics constraints. A state $s$ encodes a configuration and the velocity of each components, $s = (\textbf{q}, \dot{\textbf{q}})$.
+
+In this paper, we set our focus on the non-holonomic planning by assuming the robot operates at a low speed that dynamics are not considered during path planning. 
+
+\section{Related Work (editing)}
+It is not easy to directly compute $\mathcal{C}_{obs}$ and $\mathcal{C}_{free}$ in motion planning problem, and the dimensionality of the C-space is often quite high. There are two general strategies to approach the $\mathcal{C}_{obs}$ and $\mathcal{C}_{free}$ and generate a path:
+\begin{enumerate}
+\item The connectivity graph (sampling-based approach): a connectivity graph (roadmap) in C-space is first constructed and a path is generated by applying graph search.
+
+(cannot provide the guarantees of a complete algorithm)
+
+(probabilistic roadmap PRM, rapidly exploring random tree RRT, shortest-path roadmap, vertical cell decomposition, grid-based approaches)
+\item The Potential field: a function representing the influence of a potential field obtained by superposing an attractive potential towards the goal and a repulsive potential from the obstacle. The gradient of this function can guide the robot to the goal. 
+
+(local minima)
+\end{enumerate}
+
+approaches developed based on classical methods:
+
+......
+\cite{greenwade93} % for citation testing
+
+\section{Method (editing)}
+\section{World modeling}
+\subsection{Terrain type}
+
+\textit{safe}, \textit{risky}, \textit{obstacle}.
+
+\subsection{Graph map}
+Apply clattering and filtering to the raw terrain map.
+ 
+Decompose the map into different region based on the terrain type and approximate the shape of the region using polygon.  
+
+Construct a graph map based on the connecting relationship between regions.
+
+
+\section{hierarchical path planning}
+Generate a global path based on the graph map.
+
+Generate detailed local path to traverse through regions.
+
+\subsection{Global path}
+
+\subsection{Planning on safe terrain}
+
+The robot can be treated as a point. Transition cost between points is low. 
+
+\subsection{Planning on risky terrain}
+
+The robot orientation need to be considered. Transition cost is higher than traveling on safe terrain. 
+
+\section{Experiment}
+
+\section{Conclusion}
+
+
+\bibliographystyle{unsrt}
+\bibliography{bib}
+
+\end{document}
